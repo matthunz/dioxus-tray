@@ -1,13 +1,32 @@
 use dioxus::prelude::*;
+use dioxus_signals::use_signal;
+use dioxus_tray::{MenuItem, TrayIcon};
 
 fn app(cx: Scope) -> Element {
+    let icon = use_signal(cx, || load_icon());
     cx.render(rsx! {
-        h1 { "Hello World!" }
+        TrayIcon {
+            icon: icon,
+            MenuItem {
+                text: "Open",
+                enabled: true,
+                accelerator: "CMD+O".parse().unwrap()
+            }
+            MenuItem {
+                text: "Save",
+                accelerator: "CMD+S".parse().unwrap()
+            }
+            MenuItem {
+                text: "Quit",
+                enabled: true,
+                accelerator: "CMD+Q".parse().unwrap()
+            }
+        }
     })
 }
 
 fn main() {
-    dioxus_tray::launch(app, load_icon());
+    dioxus_desktop::launch(app);
 }
 
 fn load_icon() -> tray_icon::Icon {
