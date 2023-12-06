@@ -1,12 +1,18 @@
 use dioxus::prelude::*;
 use dioxus_signals::use_signal;
-use dioxus_tray::{MenuItem, TrayIcon};
+use dioxus_tray::{MenuItem, TrayIcon, IconMenuItem, Seperator};
+use tray_icon::menu::{ NativeIcon};
 
 fn app(cx: Scope) -> Element {
     let icon = use_signal(cx, || load_icon());
     cx.render(rsx! {
         TrayIcon {
             icon: icon,
+            IconMenuItem {
+                text: "Icon",
+                native_icon: NativeIcon::StatusAvailable,
+                enabled: true,
+            }
             MenuItem {
                 text: "Open",
                 enabled: true,
